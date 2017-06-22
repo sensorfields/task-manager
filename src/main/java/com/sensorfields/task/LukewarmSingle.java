@@ -1,26 +1,26 @@
 package com.sensorfields.task;
 
-import io.reactivex.CompletableEmitter;
-import io.reactivex.CompletableOnSubscribe;
-import io.reactivex.CompletableSource;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleOnSubscribe;
+import io.reactivex.SingleSource;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableCompletableObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 
-final class LukewarmCompletable extends DisposableCompletableObserver implements CompletableOnSubscribe {
+final class LukewarmSingle<T> extends DisposableSingleObserver<T> implements SingleOnSubscribe<T> {
 
-    private boolean complete = false;
+    private T value;
     private Throwable error;
 
-    private CompletableEmitter emitter;
+    private SingleEmitter<T> emitter;
 
-    LukewarmCompletable(CompletableSource source) {
+    LukewarmSingle(SingleSource<T> source) {
         source.subscribe(this);
     }
 
     @Override
-    public void subscribe(CompletableEmitter e) throws Exception {
+    public void subscribe(SingleEmitter<T> e) throws Exception {
         if (emitter != null) {
-            throw new IllegalStateException("Already subscribed to LukewarmCompletable");
+            throw new IllegalStateException("Already subscribed to LukewarmSingle");
         }
         emitter = e;
         emitter.setDisposable(new Disposable() {
@@ -34,8 +34,8 @@ final class LukewarmCompletable extends DisposableCompletableObserver implements
                 return emitter == null;
             }
         });
-        if (complete) {
-            emitter.onComplete();
+        if (value != null) {
+            emitter.onSuccess(value);
         }
         if (error != null) {
             emitter.onError(error);
@@ -43,11 +43,11 @@ final class LukewarmCompletable extends DisposableCompletableObserver implements
     }
 
     @Override
-    public void onComplete() {
+    public void onSuccess(T t) {
         if (emitter != null) {
-            emitter.onComplete();
+            emitter.onSuccess(t);
         } else {
-            complete = true;
+            value = t;
         }
     }
 

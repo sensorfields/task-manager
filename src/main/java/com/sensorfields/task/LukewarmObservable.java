@@ -17,8 +17,8 @@ final class LukewarmObservable<T> extends DisposableObserver<T> implements Obser
 
     private ObservableEmitter<T> emitter;
 
-    LukewarmObservable(ObservableSource<T> observable) {
-        observable.subscribe(this);
+    LukewarmObservable(ObservableSource<T> source) {
+        source.subscribe(this);
     }
 
     @Override

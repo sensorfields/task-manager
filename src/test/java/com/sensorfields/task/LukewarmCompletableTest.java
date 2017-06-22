@@ -12,8 +12,7 @@ import static org.junit.Assert.assertTrue;
 
 public class LukewarmCompletableTest {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
+    @Rule public ExpectedException thrown = ExpectedException.none();
 
     private CompletableSubject source;
     private Completable lukewarmCompletable;

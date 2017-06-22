@@ -1,9 +1,6 @@
 package com.sensorfields.task;
 
-import io.reactivex.Completable;
-import io.reactivex.CompletableTransformer;
-import io.reactivex.Observable;
-import io.reactivex.ObservableTransformer;
+import io.reactivex.*;
 
 public final class Lukewarm {
 
@@ -15,5 +12,9 @@ public final class Lukewarm {
 
     public static CompletableTransformer completable() {
         return upstream -> Completable.create(new LukewarmCompletable(upstream));
+    }
+
+    public static <T> SingleTransformer<T, T> single() {
+        return upstream -> Single.create(new LukewarmSingle<>(upstream));
     }
 }
