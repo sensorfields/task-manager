@@ -17,4 +17,8 @@ public final class Lukewarm {
     public static <T> SingleTransformer<T, T> single() {
         return upstream -> Single.create(new LukewarmSingle<>(upstream));
     }
+
+    public static <T> MaybeTransformer<T, T> maybe() {
+        return upstream -> Maybe.create(new LukewarmMaybe<>(upstream));
+    }
 }
