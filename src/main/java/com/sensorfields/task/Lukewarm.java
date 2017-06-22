@@ -21,4 +21,8 @@ public final class Lukewarm {
     public static <T> MaybeTransformer<T, T> maybe() {
         return upstream -> Maybe.create(new LukewarmMaybe<>(upstream));
     }
+
+    public static <T> FlowableTransformer<T, T> flowable(BackpressureStrategy mode) {
+        return upstream -> Flowable.create(new LukewarmFlowable<>(upstream), mode);
+    }
 }
