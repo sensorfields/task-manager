@@ -9,7 +9,7 @@ import io.reactivex.observers.DisposableObserver;
 import java.util.ArrayList;
 import java.util.List;
 
-class LukewarmObservable<T> extends DisposableObserver<T> implements ObservableOnSubscribe<T> {
+final class LukewarmObservable<T> extends DisposableObserver<T> implements ObservableOnSubscribe<T> {
 
     private final List<T> values = new ArrayList<>();
     private boolean complete = false;
@@ -30,6 +30,7 @@ class LukewarmObservable<T> extends DisposableObserver<T> implements ObservableO
         emitter.setDisposable(new Disposable() {
             @Override
             public void dispose() {
+                emitter.setDisposable(null);
                 emitter = null;
             }
             @Override
