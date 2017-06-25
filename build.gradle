@@ -1,4 +1,14 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:3.6.1'
+    }
+}
+
 apply plugin: 'java'
+apply plugin: 'me.tatarka.retrolambda'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 
@@ -10,4 +20,8 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxjava:2.1.1'
 
     testCompile 'junit:junit:4.12'
+}
+
+retrolambda {
+    javaVersion JavaVersion.VERSION_1_7
 }
